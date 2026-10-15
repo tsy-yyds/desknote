@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>悬浮便签 DeskNote · tsy-yyds</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1d1f'/%3E%3Cpath d='M8 6h13M8 13h13M8 20h13' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;color:#1d1d1f;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 28px}
+
+header{text-align:center;padding:96px 0 40px}
+h1{font-size:44px;font-weight:700;letter-spacing:-.02em}
+.tagline{margin-top:14px;font-size:17px;color:#86868b}
+.cta{margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;align-items:center}
+a.btn{
+  display:inline-block;font-size:16px;font-weight:600;color:#fff;background:#0071e3;
+  padding:12px 30px;border-radius:980px;text-decoration:none;transition:background .15s
+}
+a.btn:hover{background:#0077ed}
+a.link{font-size:15px;color:#0071e3;text-decoration:none}
+a.link:hover{text-decoration:underline}
+
+section{padding:44px 0 8px;border-top:1px solid #d2d2d7}
+section h2{font-size:15px;font-weight:600;color:#86868b;margin-bottom:18px}
+ul.feats{list-style:none;display:flex;flex-wrap:wrap;gap:10px 34px;padding:0}
+ul.feats li{font-size:15px;color:#1d1d1f;padding-left:22px;position:relative}
+ul.feats li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:#0071e3}
+
+/* download */
+.dl-row{display:flex;align-items:center;gap:16px;padding:18px 2px;border-bottom:1px solid #e8e8ed}
+.dl-row:last-child{border-bottom:none}
+.dl-info{flex:1;min-width:0}
+.dl-info .n{font-size:15px;font-weight:500;word-break:break-all}
+.dl-info .d{font-size:12.5px;color:#86868b;margin-top:2px}
+.dl-info .s{font-size:13px;color:#86868b;margin-left:8px;white-space:nowrap}
+.dl-ops{flex:none;display:flex;gap:8px;align-items:center}
+a.dl-gh{font-size:13px;font-weight:600;color:#fff;background:#1d1d1f;padding:8px 16px;border-radius:980px;text-decoration:none}
+a.dl-gh:hover{background:#000}
+details.acc{position:relative}
+details.acc summary{
+  font-size:13px;font-weight:600;color:#1d1d1f;border:1px solid #d2d2d7;padding:8px 16px;border-radius:980px;
+  cursor:pointer;list-style:none;user-select:none;text-align:center
+}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc[open] summary{border-color:#1d1d1f}
+.acc-menu{position:absolute;right:0;top:calc(100% + 6px);min-width:270px;background:#fff;border:1px solid #d2d2d7;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.1);z-index:20;padding:8px;text-align:left}
+.acc-menu .lbl{display:block;font-size:11px;color:#86868b;padding:6px 10px 2px}
+.acc-menu a{display:block;font-size:12.5px;color:#515154;text-decoration:none;padding:7px 10px;border-radius:8px;word-break:break-all}
+.acc-menu a:hover{background:#f5f5f7;color:#1d1d1f}
+.note{margin-top:18px;font-size:13px;color:#86868b}
+
+footer{padding:44px 0 60px;border-top:1px solid #d2d2d7;margin-top:48px;color:#86868b;font-size:13px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+footer a{color:#1d1d1f;text-decoration:none}
+footer a:hover{text-decoration:underline}
+
+@media (max-width:560px){
+  header{padding:64px 0 32px}
+  h1{font-size:34px}
+  .tagline{font-size:15px}
+  .dl-ops{flex-direction:column;align-items:stretch}
+  .acc-menu{position:static;min-width:0;margin-top:6px}
+}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <h1>悬浮便签 DeskNote</h1>
+  <p class="tagline">常驻桌面、开机自启的悬浮便签<br>像便利贴一样贴在屏幕上，随时记录、随时看，关闭自动保存</p>
+  <div class="cta">
+    <a class="btn" href="https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe">下载 DeskNote</a>
+    <a class="link" href="https://github.com/tsy-yyds/desknote" target="_blank" rel="noopener">GitHub 源码</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section>
+    <h2>功能</h2>
+    <ul class="feats">
+      <li>置顶 · 永远浮在最上层</li>
+      <li>贴边隐藏</li>
+      <li>6 档透明度</li>
+      <li>6 种便签颜色</li>
+      <li>多张便签独立记录</li>
+      <li>停顿一秒自动保存</li>
+      <li>20 种字体可选</li>
+      <li>系统托盘</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>下载安装</h2>
+    <div class="dl-row">
+      <div class="dl-info"><div class="n">desknote.exe <span class="s">21.5 MB</span></div><div class="d">单文件版，下载后双击即可运行，免安装</div></div>
+      <div class="dl-ops">
+        <a class="dl-gh" href="https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">GitHub 下载</a>
+        <details class="acc"><summary>国内加速</summary><div class="acc-menu">
+          <span class="lbl">镜像 1 · gh-proxy.com</span><a href="https://gh-proxy.com/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">gh-proxy.com 下载</a>
+          <span class="lbl">镜像 2 · ghfast.top</span><a href="https://ghfast.top/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">ghfast.top 下载</a>
+          <span class="lbl">镜像 3 · ghproxy.net</span><a href="https://ghproxy.net/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">ghproxy.net 下载</a>
+        </div></details>
+      </div>
+    </div>
+    <p class="note">国内加速是第三方镜像，若某个打不开，换另一个镜像即可。v1.0 · 2026</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div>© 2026 tsy-yyds · 悬浮便签 DeskNote</div>
+  <div><a href="https://github.com/tsy-yyds" target="_blank" rel="noopener">GitHub 主页</a> · <a href="https://tsy-yyds.github.io/tecy-project-summary/" target="_blank" rel="noopener">TECY 项目总汇</a></div>
+</footer>
+
+</body>
+</html>
