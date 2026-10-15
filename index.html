@@ -2,114 +2,340 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>悬浮便签 DeskNote · tsy-yyds</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231d1d1f'/%3E%3Cpath d='M8 6h13M8 13h13M8 20h13' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>悬浮便签 DeskNote · 常驻桌面、开机自启的便签</title>
+<meta name="description" content="免费开源的桌面悬浮便签：像便利贴一样贴在屏幕上，置顶悬浮、贴边隐藏、6 档透明度、6 种颜色、多张便签、停顿一秒自动保存。Windows 单文件免安装。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231B5FBF'/%3E%3Cpath d='M16 14h26l8 8v28H16z' fill='%23fff'/%3E%3Cpath d='M42 14v8h8' fill='%23EAF1FB'/%3E%3Crect x='22' y='28' width='24' height='5' rx='2.5' fill='%231B5FBF'/%3E%3Crect x='22' y='38' width='18' height='5' rx='2.5' fill='%231B5FBF'/%3E%3C/svg%3E">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;color:#1d1d1f;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
-.wrap{max-width:760px;margin:0 auto;padding:0 28px}
+  :root{
+    --paper:#FAFAF6; --card:#FFFFFF; --ink:#1F2328; --ink-soft:#57606A;
+    --line:#E6E8EB; --blue:#1B5FBF; --blue-deep:#154A97; --blue-soft:#EAF1FB;
+    --ok:#0E7A4D; --warn-bg:#FFF7E6; --warn-line:#F5C76A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.75;font-size:16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
 
-header{text-align:center;padding:96px 0 40px}
-h1{font-size:44px;font-weight:700;letter-spacing:-.02em}
-.tagline{margin-top:14px;font-size:17px;color:#86868b}
-.cta{margin-top:28px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;align-items:center}
-a.btn{
-  display:inline-block;font-size:16px;font-weight:600;color:#fff;background:#0071e3;
-  padding:12px 30px;border-radius:980px;text-decoration:none;transition:background .15s
-}
-a.btn:hover{background:#0077ed}
-a.link{font-size:15px;color:#0071e3;text-decoration:none}
-a.link:hover{text-decoration:underline}
+  /* ===== 导航 ===== */
+  nav{position:sticky;top:0;z-index:50;background:rgba(250,250,246,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .brand{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:17px;color:var(--ink);min-height:44px}
+  .brand svg{width:26px;height:26px}
+  .nav-links{display:flex;gap:26px;font-size:14px}
+  .nav-links a{color:var(--ink-soft);font-weight:500;padding:8px 0;display:inline-block}
+  .nav-links a:hover{color:var(--blue);text-decoration:none}
 
-section{padding:44px 0 8px;border-top:1px solid #d2d2d7}
-section h2{font-size:15px;font-weight:600;color:#86868b;margin-bottom:18px}
-ul.feats{list-style:none;display:flex;flex-wrap:wrap;gap:10px 34px;padding:0}
-ul.feats li{font-size:15px;color:#1d1d1f;padding-left:22px;position:relative}
-ul.feats li::before{content:"";position:absolute;left:2px;top:9px;width:7px;height:7px;border-radius:50%;background:#0071e3}
+  /* ===== Hero ===== */
+  header.hero{padding:76px 0 56px;border-bottom:1px solid var(--line);overflow:hidden}
+  .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+  .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--blue);font-weight:600;background:var(--blue-soft);border-radius:999px;padding:4px 14px;margin-bottom:22px}
+  h1{font-size:42px;line-height:1.22;font-weight:800;letter-spacing:-.5px}
+  h1 .accent{color:var(--blue)}
+  .sub{font-size:17px;color:var(--ink-soft);max-width:36em;margin-top:16px}
+  .meta-line{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:14px;color:var(--ink-soft)}
+  .meta-line span{display:inline-flex;align-items:center;gap:6px}
+  .meta-line svg{width:14px;height:14px;color:var(--ok)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:10px;font-size:15px;font-weight:600;transition:transform .15s ease,box-shadow .15s ease}
+  .btn svg{width:17px;height:17px}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 10px rgba(27,95,191,.28)}
+  .btn-primary:hover{background:var(--blue-deep);transform:translateY(-1px);text-decoration:none}
+  .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  .hero-art{display:flex;align-items:center;justify-content:center}
+  .hero-art svg{width:100%;max-width:360px;height:auto}
 
-/* download */
-.dl-row{display:flex;align-items:center;gap:16px;padding:18px 2px;border-bottom:1px solid #e8e8ed}
-.dl-row:last-child{border-bottom:none}
-.dl-info{flex:1;min-width:0}
-.dl-info .n{font-size:15px;font-weight:500;word-break:break-all}
-.dl-info .d{font-size:12.5px;color:#86868b;margin-top:2px}
-.dl-info .s{font-size:13px;color:#86868b;margin-left:8px;white-space:nowrap}
-.dl-ops{flex:none;display:flex;gap:8px;align-items:center}
-a.dl-gh{font-size:13px;font-weight:600;color:#fff;background:#1d1d1f;padding:8px 16px;border-radius:980px;text-decoration:none}
-a.dl-gh:hover{background:#000}
-details.acc{position:relative}
-details.acc summary{
-  font-size:13px;font-weight:600;color:#1d1d1f;border:1px solid #d2d2d7;padding:8px 16px;border-radius:980px;
-  cursor:pointer;list-style:none;user-select:none;text-align:center
-}
-details.acc summary::-webkit-details-marker{display:none}
-details.acc[open] summary{border-color:#1d1d1f}
-.acc-menu{position:absolute;right:0;top:calc(100% + 6px);min-width:270px;background:#fff;border:1px solid #d2d2d7;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.1);z-index:20;padding:8px;text-align:left}
-.acc-menu .lbl{display:block;font-size:11px;color:#86868b;padding:6px 10px 2px}
-.acc-menu a{display:block;font-size:12.5px;color:#515154;text-decoration:none;padding:7px 10px;border-radius:8px;word-break:break-all}
-.acc-menu a:hover{background:#f5f5f7;color:#1d1d1f}
-.note{margin-top:18px;font-size:13px;color:#86868b}
+  /* ===== 区块 ===== */
+  section{padding:60px 0;border-bottom:1px solid var(--line)}
+  .sec-head{margin-bottom:36px}
+  .sec-head h2{font-size:27px;font-weight:800;letter-spacing:-.3px}
+  .sec-head p{color:var(--ink-soft);margin-top:8px;font-size:15px}
+  .lead{font-size:16px;color:var(--ink-soft);max-width:60em}
+  .lead b{color:var(--ink)}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;margin-top:26px;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px}
+  .flow .node{display:inline-flex;align-items:center;gap:8px;font-weight:600}
+  .flow .node svg{width:18px;height:18px;color:var(--blue)}
+  .flow .arrow{color:var(--ink-soft);font-weight:700}
 
-footer{padding:44px 0 60px;border-top:1px solid #d2d2d7;margin-top:48px;color:#86868b;font-size:13px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
-footer a{color:#1d1d1f;text-decoration:none}
-footer a:hover{text-decoration:underline}
+  /* ===== 档案表 ===== */
+  .file-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 30px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px 28px;margin-top:26px}
+  .file-row{display:flex;gap:14px;font-size:15px;border-bottom:1px dashed var(--line);padding:8px 0}
+  .file-row:last-child{border-bottom:none}
+  .file-row dt{color:var(--ink-soft);flex:0 0 92px;font-weight:500}
+  .file-row dd{font-weight:600}
 
-@media (max-width:560px){
-  header{padding:64px 0 32px}
-  h1{font-size:34px}
-  .tagline{font-size:15px}
-  .dl-ops{flex-direction:column;align-items:stretch}
-  .acc-menu{position:static;min-width:0;margin-top:6px}
-}
+  /* ===== 特色 ===== */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;gap:16px;align-items:flex-start}
+  .card-icon{flex:0 0 44px;width:44px;height:44px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center}
+  .card-icon svg{width:23px;height:23px}
+  .card h3{font-size:16px;font-weight:700;margin-bottom:4px}
+  .card p{font-size:14px;color:var(--ink-soft)}
+
+  /* ===== 下载 ===== */
+  .dl-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px 30px}
+  .dl-head{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .dl-title{display:flex;align-items:center;gap:14px}
+  .dl-title .card-icon{flex:0 0 52px;width:52px;height:52px}
+  .dl-title h3{font-size:19px;font-weight:800}
+  .dl-title .ver{display:inline-block;font-size:12px;background:var(--blue-soft);color:var(--blue-deep);border-radius:6px;padding:1px 8px;margin-left:8px;vertical-align:2px}
+  .dl-desc{font-size:14px;color:var(--ink-soft);max-width:52em;margin-bottom:18px}
+  .dl-table{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin-bottom:22px}
+  .dl-table div span{display:block;color:var(--ink-soft);margin-bottom:2px;font-size:13px}
+  .dl-table div b{font-weight:600;font-size:14px}
+  .dl-btns{display:flex;flex-wrap:wrap;gap:12px}
+  .btn-dl{background:var(--blue);color:#fff;font-size:16px;padding:14px 30px;border-radius:10px;font-weight:700;box-shadow:0 2px 10px rgba(27,95,191,.28)}
+  .btn-dl:hover{background:var(--blue-deep);transform:translateY(-1px);text-decoration:none}
+  .btn-alt{background:var(--card);border:1px solid var(--line);color:var(--ink);font-size:14px;padding:12px 22px}
+  .btn-alt:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
+  .warn{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:14px 18px;font-size:14px;color:#7A5A00;margin-top:18px}
+  .mirror-lbl{width:100%;font-size:13px;color:var(--ink-soft);margin-top:6px}
+
+  /* ===== FAQ ===== */
+  .faq{display:grid;gap:14px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 20px}
+  details summary{cursor:pointer;font-weight:600;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"";flex:0 0 10px;width:10px;height:10px;border-right:2px solid var(--ink-soft);border-bottom:2px solid var(--ink-soft);transform:rotate(45deg);transition:transform .2s ease;margin-top:-4px}
+  details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+  details p{margin-top:12px;font-size:14px;color:var(--ink-soft)}
+  details code{font-family:Consolas,"Courier New",monospace;font-size:13px;background:var(--blue-soft);color:var(--blue-deep);border-radius:5px;padding:1px 7px}
+
+  /* ===== footer ===== */
+  footer{padding:40px 0 64px;color:var(--ink-soft);font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;align-items:center}
+  footer a{color:var(--blue)}
+
+  @media (max-width:760px){
+    h1{font-size:31px}
+    .sub{font-size:16px}
+    .hero-inner{grid-template-columns:1fr;gap:30px}
+    .hero-art{order:-1}
+    .hero-art svg{max-width:280px;width:100%}
+    header.hero{padding:52px 0 40px}
+    section{padding:44px 0}
+    .grid{grid-template-columns:1fr}
+    .file-grid{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .cta-row .btn{flex:1 1 100%;justify-content:center}
+    .dl-card{padding:22px 20px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
 </style>
 </head>
 <body>
 
-<header class="wrap">
-  <h1>悬浮便签 DeskNote</h1>
-  <p class="tagline">常驻桌面、开机自启的悬浮便签<br>像便利贴一样贴在屏幕上，随时记录、随时看，关闭自动保存</p>
-  <div class="cta">
-    <a class="btn" href="https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe">下载 DeskNote</a>
-    <a class="link" href="https://github.com/tsy-yyds/desknote" target="_blank" rel="noopener">GitHub 源码</a>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#1B5FBF"/><path d="M16 14h26l8 8v28H16z" fill="#fff"/><path d="M42 14v8h8" fill="#EAF1FB"/><rect x="22" y="28" width="24" height="5" rx="2.5" fill="#1B5FBF"/><rect x="22" y="38" width="18" height="5" rx="2.5" fill="#1B5FBF"/></svg>
+      悬浮便签
+    </a>
+    <div class="nav-links">
+      <a href="#intro">介绍</a>
+      <a href="#features">特色</a>
+      <a href="#download">下载</a>
+      <a href="https://github.com/tsy-yyds/desknote">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-inner">
+    <div>
+      <span class="kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        免费 · 开源 · 免安装
+      </span>
+      <h1>把便签，<br>直接<span class="accent">贴在屏幕上</span></h1>
+      <p class="sub">像便利贴一样贴在桌面的悬浮便签：置顶悬浮、贴边隐藏，随时记录、随时看。关掉窗口内容也不会丢，停顿一秒自动保存。</p>
+      <div class="meta-line">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>置顶 · 永远浮在最上层</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>开机自启 · 自动保存</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>单文件免安装</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          立即下载
+        </a>
+        <a class="btn btn-ghost" href="#intro">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          先看看介绍
+        </a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <ellipse cx="180" cy="236" rx="150" ry="14" fill="#EDEFF2"/>
+        <g>
+          <rect x="70" y="40" width="220" height="170" rx="14" fill="#fff" stroke="#E0E3E7" stroke-width="2"/>
+          <path d="M256 40l34 34h-34z" fill="#EAF1FB" stroke="#E0E3E7" stroke-width="2"/>
+          <rect x="100" y="88" width="150" height="14" rx="7" fill="#1B5FBF"/>
+          <rect x="100" y="120" width="120" height="10" rx="5" fill="#C9D8F0"/>
+          <rect x="100" y="142" width="136" height="10" rx="5" fill="#C9D8F0"/>
+        </g>
+        <g>
+          <rect x="110" y="176" width="140" height="12" rx="6" fill="#FFE08A" stroke="#F2C94C" stroke-width="1.5"/>
+        </g>
+        <g stroke="#9AA4AF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 6">
+          <path d="M92 150c-8-4-12-12-8-18s14-8 20-4"/>
+          <path d="M268 150c8-4 12-12 8-18s-14-8-20-4"/>
+        </g>
+        <text x="256" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#57606A" font-family="system-ui">DeskNote</text>
+      </svg>
+    </div>
   </div>
 </header>
 
-<main class="wrap">
-  <section>
-    <h2>功能</h2>
-    <ul class="feats">
-      <li>置顶 · 永远浮在最上层</li>
-      <li>贴边隐藏</li>
-      <li>6 档透明度</li>
-      <li>6 种便签颜色</li>
-      <li>多张便签独立记录</li>
-      <li>停顿一秒自动保存</li>
-      <li>20 种字体可选</li>
-      <li>系统托盘</li>
-    </ul>
-  </section>
+<!-- ===== 介绍 ===== -->
+<section id="intro">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>它是什么</h2>
+    </div>
+    <p class="lead">一款常驻桌面的<b>悬浮便签</b>。双击运行后便签贴在屏幕上，置顶显示不会被其他窗口挡住；写错或者临时不用的内容，拖到屏幕边缘自动隐藏，随时再拉出来。</p>
+    <div class="flow">
+      <span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>随手记一条</span>
+      <span class="arrow">→</span>
+      <span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M12 6v6l3 2"/></svg>停顿一秒自动保存</span>
+      <span class="arrow">→</span>
+      <span class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M7 18v2h10v-2"/></svg>置顶贴边常驻桌面</span>
+    </div>
+    <div class="file-grid">
+      <div class="file-row"><dt>软件名称</dt><dd>悬浮便签 DeskNote</dd></div>
+      <div class="file-row"><dt>软件类型</dt><dd>桌面效率工具</dd></div>
+      <div class="file-row"><dt>运行平台</dt><dd>Windows 10 / 11</dd></div>
+      <div class="file-row"><dt>当前版本</dt><dd>v1.0</dd></div>
+      <div class="file-row"><dt>软件语言</dt><dd>简体中文</dd></div>
+      <div class="file-row"><dt>收费方式</dt><dd>完全免费 · 开源</dd></div>
+      <div class="file-row"><dt>更新日期</dt><dd>2026</dd></div>
+      <div class="file-row"><dt>开发作者</dt><dd>tsy-yyds</dd></div>
+    </div>
+  </div>
+</section>
 
-  <section>
-    <h2>下载安装</h2>
-    <div class="dl-row">
-      <div class="dl-info"><div class="n">desknote.exe <span class="s">21.5 MB</span></div><div class="d">单文件版，下载后双击即可运行，免安装</div></div>
-      <div class="dl-ops">
-        <a class="dl-gh" href="https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">GitHub 下载</a>
-        <details class="acc"><summary>国内加速</summary><div class="acc-menu">
-          <span class="lbl">镜像 1 · gh-proxy.com</span><a href="https://gh-proxy.com/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">gh-proxy.com 下载</a>
-          <span class="lbl">镜像 2 · ghfast.top</span><a href="https://ghfast.top/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">ghfast.top 下载</a>
-          <span class="lbl">镜像 3 · ghproxy.net</span><a href="https://ghproxy.net/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">ghproxy.net 下载</a>
-        </div></details>
+<!-- ===== 特色 ===== -->
+<section id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>核心特色</h2>
+      <p>把「贴便签」这件小事做顺手。</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></div>
+        <div><h3>置顶悬浮</h3><p>便签永远浮在最上层，不被其他窗口挡住，抬眼就能看到待办。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 19h18"/><path d="M9 3v16"/></svg></div>
+        <div><h3>贴边隐藏</h3><p>把便签拖到屏幕边缘自动收起来，鼠标划过再展开，不占桌面空间。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9"/><path d="M12 7a5 5 0 1 0 5 5"/><circle cx="12" cy="12" r="1.6"/></svg></div>
+        <div><h3>6 档透明度</h3><p>从全不透明到半透明共 6 档，记在旁边不挡视线，需要时调回来。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/></svg></div>
+        <div><h3>6 种便签颜色</h3><p>黄色、蓝色、绿色……按内容分类着色，一眼分清工作、生活、备忘。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+        <div><h3>多张便签独立记录</h3><p>一张不够就开第二张，每张内容各自保存，互不干扰。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+        <div><h3>停顿一秒自动保存</h3><p>停止输入一秒自动落盘，关窗口、重启电脑内容都不丢。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><rect x="4" y="7" width="16" height="13" rx="2"/><path d="M9 13h6"/></svg></div>
+        <div><h3>20 种字体可选</h3><p>正楷、手写体、等宽……便签文字用哪种字体自己说了算。</p></div>
+      </div>
+      <div class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="4"/><circle cx="8" cy="8" r="2"/><circle cx="16" cy="8" r="2"/><path d="M8 16c2 2 6 2 8 0"/></svg></div>
+        <div><h3>系统托盘</h3><p>收进右下角托盘常驻，不占任务栏，随时右键呼出。</p></div>
       </div>
     </div>
-    <p class="note">国内加速是第三方镜像，若某个打不开，换另一个镜像即可。v1.0 · 2026</p>
-  </section>
-</main>
+  </div>
+</section>
 
-<footer class="wrap">
-  <div>© 2026 tsy-yyds · 悬浮便签 DeskNote</div>
-  <div><a href="https://github.com/tsy-yyds" target="_blank" rel="noopener">GitHub 主页</a> · <a href="https://tsy-yyds.github.io/tecy-project-summary/" target="_blank" rel="noopener">TECY 项目总汇</a></div>
+<!-- ===== 下载 ===== -->
+<section id="download">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>下载悬浮便签</h2>
+      <p>单文件版，下载后双击即可运行，免安装。</p>
+    </div>
+    <div class="dl-card">
+      <div class="dl-head">
+        <div class="dl-title">
+          <span class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
+          <div><h3>悬浮便签 DeskNote<span class="ver">v1.0</span></h3></div>
+        </div>
+        <a class="btn btn-alt" href="https://github.com/tsy-yyds/desknote/releases">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-5-2.5S3.5 12 6 12c1.5 0 2.5 1 2.5 1S9 9.5 12 8.5c0-1 .5-2.5 1-4C14.5 6 14 8 14.5 9c1-.5 2-1.5 3.5-2-1 1.5-.5 3 0 4 1.5-.5 2.5-.5 3.5-.5 0 1.5-1 2.5-2 3.5 0 5-5.5 5.5-7 4.5z"/></svg>
+          GitHub 发布页
+        </a>
+      </div>
+      <p class="dl-desc">绿色单文件：下载后双击 <b>desknote.exe</b> 直接运行，不需要安装、不写注册表。便签数据保存在程序同目录，删除即卸载。</p>
+      <div class="dl-table">
+        <div><span>文件名</span><b>desknote.exe</b></div>
+        <div><span>版本</span><b>1.0</b></div>
+        <div><span>平台</span><b>Windows 10 / 11（64 位）</b></div>
+        <div><span>大小</span><b>约 21.5 MB</b></div>
+        <div><span>更新日期</span><b>2026</b></div>
+        <div><span>收费</span><b>免费 · 开源</b></div>
+      </div>
+      <div class="dl-btns">
+        <a class="btn btn-dl" href="https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+          GitHub 下载
+        </a>
+        <a class="btn btn-alt" href="https://gh-proxy.com/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">镜像 1 · gh-proxy.com</a>
+        <a class="btn btn-alt" href="https://ghfast.top/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">镜像 2 · ghfast.top</a>
+        <a class="btn btn-alt" href="https://ghproxy.net/https://github.com/tsy-yyds/desknote/releases/download/v1.0/desknote.exe" target="_blank" rel="noopener">镜像 3 · ghproxy.net</a>
+        <a class="btn btn-alt" href="https://github.com/tsy-yyds/desknote/blob/main/使用说明.txt" target="_blank" rel="noopener">查看使用说明</a>
+      </div>
+      <div class="warn">本程序为个人开发者制作，尚未购买代码签名证书。若 Windows 弹出 SmartScreen 拦截，点击「更多信息」→「仍要运行」继续，属正常现象。国内加速为第三方镜像，某个打不开就换另一个。</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>常见问题</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>双击打不开 / 被拦截了？</summary>
+        <p>程序未购买代码签名证书，Windows 可能弹出 SmartScreen：点「更多信息」→「仍要运行」。若被安全软件隔离，添加信任即可，源码全部开源可自查。</p>
+      </details>
+      <details>
+        <summary>便签数据存在哪里？删掉程序会丢吗？</summary>
+        <p>便签内容保存在 exe 同目录的数据文件中，卸载只需删除整个文件夹。重装或换电脑时，把文件夹一起拷走即可。</p>
+      </details>
+      <details>
+        <summary>开机自启怎么设置？</summary>
+        <p>在程序设置里打开「开机自启」，或把 <code>启动便签.bat</code> 快捷方式放进启动文件夹。具体见仓库里的使用说明.txt。</p>
+      </details>
+      <details>
+        <summary>会联网上传我的便签内容吗？</summary>
+        <p>不会。便签是纯本地工具，数据只写在你自己电脑上，源码在 GitHub 可逐行查看。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>悬浮便签 · DeskNote · 免费开源</span>
+    <span>源码仓库 <a href="https://github.com/tsy-yyds/desknote">github.com/tsy-yyds/desknote</a></span>
+  </div>
 </footer>
 
 </body>
