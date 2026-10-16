@@ -29,24 +29,22 @@
   .nav-links a:hover{color:var(--blue);text-decoration:none}
 
   /* ===== Hero ===== */
-  header.hero{padding:76px 0 56px;border-bottom:1px solid var(--line);overflow:hidden}
-  .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+  header.hero{padding:88px 0 64px;border-bottom:1px solid var(--line);overflow:hidden}
+  .hero-inner{max-width:780px;margin:0 auto;text-align:center}
   .kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--blue);font-weight:600;background:var(--blue-soft);border-radius:999px;padding:4px 14px;margin-bottom:22px}
   h1{font-size:42px;line-height:1.22;font-weight:800;letter-spacing:-.5px}
   h1 .accent{color:var(--blue)}
-  .sub{font-size:17px;color:var(--ink-soft);max-width:36em;margin-top:16px}
-  .meta-line{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:14px;color:var(--ink-soft)}
+  .sub{font-size:17px;color:var(--ink-soft);max-width:34em;margin:18px auto 0}
+  .meta-line{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:26px;font-size:14px;color:var(--ink-soft);justify-content:center}
   .meta-line span{display:inline-flex;align-items:center;gap:6px}
   .meta-line svg{width:14px;height:14px;color:var(--ok)}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px;justify-content:center}
   .btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:10px;font-size:15px;font-weight:600;transition:transform .15s ease,box-shadow .15s ease}
   .btn svg{width:17px;height:17px}
   .btn-primary{background:var(--blue);color:#fff;box-shadow:0 2px 10px rgba(27,95,191,.28)}
   .btn-primary:hover{background:var(--blue-deep);transform:translateY(-1px);text-decoration:none}
   .btn-ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
   .btn-ghost:hover{border-color:var(--blue);color:var(--blue);text-decoration:none}
-  .hero-art{display:flex;align-items:center;justify-content:center}
-  .hero-art svg{width:100%;max-width:360px;height:auto}
 
   /* ===== 区块 ===== */
   section{padding:60px 0;border-bottom:1px solid var(--line)}
@@ -113,8 +111,6 @@
     h1{font-size:31px}
     .sub{font-size:16px}
     .hero-inner{grid-template-columns:1fr;gap:30px}
-    .hero-art{order:-1}
-    .hero-art svg{max-width:280px;width:100%}
     header.hero{padding:52px 0 40px}
     section{padding:44px 0}
     .grid{grid-template-columns:1fr}
@@ -168,27 +164,7 @@
         </a>
       </div>
     </div>
-    <div class="hero-art">
-      <svg viewBox="0 0 360 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <ellipse cx="180" cy="236" rx="150" ry="14" fill="#EDEFF2"/>
-        <g>
-          <rect x="70" y="40" width="220" height="170" rx="14" fill="#fff" stroke="#E0E3E7" stroke-width="2"/>
-          <path d="M256 40l34 34h-34z" fill="#EAF1FB" stroke="#E0E3E7" stroke-width="2"/>
-          <rect x="100" y="88" width="150" height="14" rx="7" fill="#1B5FBF"/>
-          <rect x="100" y="120" width="120" height="10" rx="5" fill="#C9D8F0"/>
-          <rect x="100" y="142" width="136" height="10" rx="5" fill="#C9D8F0"/>
-        </g>
-        <g>
-          <rect x="110" y="176" width="140" height="12" rx="6" fill="#FFE08A" stroke="#F2C94C" stroke-width="1.5"/>
-        </g>
-        <g stroke="#9AA4AF" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 6">
-          <path d="M92 150c-8-4-12-12-8-18s14-8 20-4"/>
-          <path d="M268 150c8-4 12-12 8-18s-14-8-20-4"/>
-        </g>
-        <text x="256" y="64" text-anchor="middle" font-size="13" font-weight="700" fill="#57606A" font-family="system-ui">DeskNote</text>
-      </svg>
-    </div>
-  </div>
+</div>
 </header>
 
 <!-- ===== 介绍 ===== -->
